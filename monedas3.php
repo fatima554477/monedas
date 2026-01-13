@@ -339,6 +339,7 @@ while($row = mysqli_fetch_array($querycontras)) {
     <?php } ?>
 </tr>
 <?php } ?>
+ </form>
 </tbody>
 </table>
 </div>
@@ -347,7 +348,7 @@ while($row = mysqli_fetch_array($querycontras)) {
 </div>
 </div>
 
- </form>
+
 <script>
 document.getElementById("buscadorMonedas3").addEventListener("keyup", function() {
     let input = this.value.toLowerCase();

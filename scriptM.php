@@ -115,13 +115,24 @@ $('#1'+nombre).html('<p style="color:green;">CARGANDO archivo!</p>');
 	    }
 	}
 
-	function actualizar_listado_temporal(nombre) {
+function actualizar_listado_temporal(nombre) {
 		$.ajax({
 			type: 'POST',
 			url: "MONEDAS/controladorM.php",
 			data: { listar_temporal: 'listar_temporal', campo: nombre },
 			success: function(response) {
 				$("#2" + nombre).html(response);
+			}
+		});
+	}
+
+	function refrescar_tabla_monedas(tipo, selector) {
+		$.ajax({
+			type: 'POST',
+			url: "MONEDAS/controladorM.php",
+			data: { listar_tabla: 'listar_tabla', tipo_tabla: tipo },
+			success: function(response) {
+				$(selector).html(response);
 			}
 		});
 	}
@@ -173,15 +184,17 @@ $.ajax({
 	 beforeSend:function(){  
     $('#mensajeMONEDAS').html('cargando'); 
     },    
-   success:function(data){
-		$("#2IMAGENDOLARES").load(location.href + " #2IMAGENDOLARES");	
-		$("#reset_MONEDAS").load(location.href + " #reset_MONEDAS");	
+  success:function(data){
+		actualizar_listado_temporal('IMAGENDOLARES');
+		refrescar_tabla_monedas('DOLAR', '#reset_MONEDAS tbody');
 		$("#mensajeMONEDAS").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 
 
    }
    
 })
+
 });
+
 
 
 $(document).on('click', '.view_MONEDAS', function(){
@@ -205,13 +218,14 @@ $(document).on('click', '.view_MONEDAS', function(){
 
 $(document).on('click', '.view_dataMONEDASborrar', function(){
 
+  var $boton = $(this);
   var borra_moneda = $(this).attr("id");
   var borra_MONEDAS = "borra_MONEDAS";
 
   //AGREGAR
     $('#personal_detalles3').html();
     $('#dataModal3').modal('show');
-  $('#btnYes').click(function() {
+  $('#btnYes').off('click').on('click', function() {
   //AGREGAR
 
   
@@ -222,11 +236,11 @@ $(document).on('click', '.view_dataMONEDASborrar', function(){
    
     beforeSend:function(){  
     $('#mensajeMONEDAS').html('CARGANDO'); 
-    },    
+  },    
    success:function(data){
 	   			$('#dataModal3').modal('hide');	   
 			$("#mensajeMONEDAS").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 			
-			$("#reset_MONEDAS").load(location.href + " #reset_MONEDAS");
+			$boton.closest('tr').remove();
    }
   });
   
@@ -271,7 +285,6 @@ $('#mensajeMONEDAS').html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().de
 
 $("#enviardocubanco").click(function(){
 const formData = new FormData($('#DOCUMENTONUEVObancoform')[0]);
-
 $.ajax({
     url:"MONEDAS/controladorM.php",
     type: 'POST',
@@ -303,7 +316,7 @@ $(document).on('click', '.view_databorraNUEVOborra', function(){
   //AGREGAR
     $('#personal_detalles3').html();
     $('#dataModal3').modal('show');
-  $('#btnYes').click(function() {
+  $('#btnYes').off('click').on('click', function() {
   //AGREGAR
   $.ajax({
   url:"MONEDAS/controladorM.php",
@@ -500,14 +513,16 @@ $.ajax({
     $('#mensajeMONEDAS2').html('cargando'); 
     },    
    success:function(data){
-		$("#2IMAGENEUROS").load(location.href + " #2IMAGENEUROS");
-		$("#reset_MONEDAS2").load(location.href + " #reset_MONEDAS2");	
+		actualizar_listado_temporal('IMAGENEUROS');
+		refrescar_tabla_monedas('EURO', '#reset_MONEDAS2 tbody');	
 			$("#mensajeMONEDAS2").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 
 
    }
    
 })
+
 });
+
 
 
 $(document).on('click', '.view_MONEDAS2', function(){
@@ -528,16 +543,16 @@ $(document).on('click', '.view_MONEDAS2', function(){
  })
 
 
-
 $(document).on('click', '.view_dataMONEDASborrar2', function(){
 
+  var $boton = $(this);
   var borra_moneda2 = $(this).attr("id");
   var borra_MONEDAS2 = "borra_MONEDAS2";
 
   //AGREGAR
     $('#personal_detalles3').html();
     $('#dataModal3').modal('show');
-  $('#btnYes').click(function() {
+  $('#btnYes').off('click').on('click', function() {
   //AGREGAR
 
   
@@ -548,19 +563,22 @@ $(document).on('click', '.view_dataMONEDASborrar2', function(){
    
     beforeSend:function(){  
     $('#mensajeMONEDAS2').html('CARGANDO'); 
-    },    
+     },    
    success:function(data){
 	   			$('#dataModal3').modal('hide');	   
 			$("#mensajeMONEDAS2").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 		
-			$("#reset_MONEDAS2").load(location.href + " #reset_MONEDAS2");
+			$boton.closest('tr').remove();
    }
   });
   
     //AGREGAR	
 	});
+
   //AGREGAR	 
+
   
- });		
+
+ });			
 
 /////////////////////SCRIPT enviar EMAIL//////
 $(document).on('click', '#BUTTON_MONEDAS2', function(){
@@ -612,15 +630,17 @@ $.ajax({
 	 beforeSend:function(){  
     $('#mensajeMONEDAS3').html('cargando'); 
     },    
-   success:function(data){
-	$("#2IMAGENTODOS").load(location.href + " #2IMAGENTODOS");
-	$("#reset_MONEDAS3").load(location.href + " #reset_MONEDAS3");	
+ success:function(data){
+	actualizar_listado_temporal('IMAGENTODOS');
+	refrescar_tabla_monedas('TODOS', '#reset_MONEDAS3 tbody');	
 	$("#mensajeMONEDAS3").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 
 
    }
    
 })
+
 });
+
 
 
 $(document).on('click', '.view_MONEDAS3', function(){
@@ -644,13 +664,14 @@ $(document).on('click', '.view_MONEDAS3', function(){
 
 $(document).on('click', '.view_dataMONEDASborrar3', function(){
 
+  var $boton = $(this);
   var borra_moneda3 = $(this).attr("id");
   var borra_MONEDAS3 = "borra_MONEDAS3";
 
   //AGREGAR
     $('#personal_detalles3').html();
     $('#dataModal3').modal('show');
-  $('#btnYes').click(function() {
+  $('#btnYes').off('click').on('click', function() {
   //AGREGAR
 
   
@@ -661,18 +682,15 @@ $(document).on('click', '.view_dataMONEDASborrar3', function(){
    
     beforeSend:function(){  
     $('#mensajeMONEDAS3').html('CARGANDO'); 
-    },    
+   },    
    success:function(data){
 	   			$('#dataModal3').modal('hide');	   
 			$("#mensajeMONEDAS3").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 			
-			$("#reset_MONEDAS3").load(location.href + " #reset_MONEDAS3");
-			$("#reset_MONEDAS2").load(location.href + " #reset_MONEDAS2");
-			
-		$("#reset_MONEDAS").load(location.href + " #reset_MONEDAS");	
+			$boton.closest('tr').remove();
    }
   });
   
-    //AGREGAR	
+    //AGREGAR		
 	});
   //AGREGAR	 
   
@@ -728,15 +746,17 @@ $.ajax({
 	 beforeSend:function(){  
     $('#mensajeMONEDAS4').html('cargando'); 
     },    
-   success:function(data){
-		$("#2IMAGENLIBRA").load(location.href + " #2IMAGENLIBRA");	
-		$("#reset_MONEDAS4").load(location.href + " #reset_MONEDAS4");		
+  success:function(data){
+		actualizar_listado_temporal('IMAGENLIBRA');	
+		refrescar_tabla_monedas('LIBRA', '#reset_MONEDAS4 tbody');		
 			$("#mensajeMONEDAS4").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 
 
    }
    
 })
+
 });
+
 
 
 $(document).on('click', '.view_MONEDAS4', function(){
@@ -760,13 +780,14 @@ $(document).on('click', '.view_MONEDAS4', function(){
 
 $(document).on('click', '.view_dataMONEDASborrar4', function(){
 
+  var $boton = $(this);
   var borra_moneda4 = $(this).attr("id");
   var borra_MONEDAS4 = "borra_MONEDAS4";
 
   //AGREGAR
     $('#personal_detalles3').html();
     $('#dataModal3').modal('show');
-  $('#btnYes').click(function() {
+  $('#btnYes').off('click').on('click', function() {
   //AGREGAR
 
   
@@ -777,11 +798,11 @@ $(document).on('click', '.view_dataMONEDASborrar4', function(){
    
     beforeSend:function(){  
     $('#mensajeMONEDAS4').html('CARGANDO'); 
-    },    
+   },    
    success:function(data){
 	   			$('#dataModal3').modal('hide');	   
 			$("#mensajeMONEDAS4").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 		
-			$("#reset_MONEDAS4").load(location.href + " #reset_MONEDAS4");
+			$boton.closest('tr').remove();
    }
   });
   

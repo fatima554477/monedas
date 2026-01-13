@@ -287,14 +287,16 @@ $urlIMAGEN_MONEDAS ='';
     <?php } ?>
 </tr>
 <?php } ?>
+
 </tbody>
+ </form>
 </table>
 </div>
 </div>
 </div>
 </div>
 </div>
- </form>
+
 <style>
     .table-container {
         max-height: 400px;

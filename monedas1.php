@@ -117,7 +117,10 @@
 		 onkeyup="comasainput('TIPO_CAMBIO')"  placeholder="TIPO DE CAMBIO COMPRADO">
  </div>
  </td>
-         </tr> 
+         </tr>
+
+
+		 
 		          <tr  style="background:#f7edf8"> 
          <th class="text-start"> <label for="validationCustom03" class="text-start">IMAGEN:</label></th>
          <td>
@@ -236,7 +239,7 @@ $querycontras = $monedas->Listado_MONEDAS();
 <thead>
 <tr style='background:#f5f9fc;text-align:center'>
 
-    <th style="background:#c9e8e8;width:18%">ENVIAR <br>POR EMAIL</th>  
+    <th style="background:#c9e8e8;width:12%">ENVIAR <br>POR EMAIL</th>  
     <th style="background:#c9e8e8">MONEDA</th>
     <th style="background:#c9e8e8">ISO</th>
     <th style="background:#c9e8e8">BANCO</th>

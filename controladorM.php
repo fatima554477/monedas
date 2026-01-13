@@ -24,6 +24,60 @@ if($listar_temporal == 'listar_temporal' && in_array($campo_temporal, $campos_te
 			echo "<a target='_blank' href='includes/archivos/".$row_temporal[$campo_temporal]."' id='A".$row_temporal['id']."' >Visualizar!</a> "." <span id='".$row_temporal['id']."' class='view_dataAEborrar' style='cursor:pointer;color:blue;'>Borrar!</span><span > ".$fecha_registro."</span>".'<br/>';
 		}
 	}
+exit;
+}
+
+$listar_tabla = isset($_POST["listar_tabla"])?$_POST["listar_tabla"]:"";
+$tipo_tabla = isset($_POST["tipo_tabla"])?$_POST["tipo_tabla"]:"";
+if($listar_tabla === 'listar_tabla'){
+	function render_monedas_rows($querycontras, $imagenCampo, $permisoModulo, $viewClass, $borrarClass, $checkboxWidth){
+		$monedas = $GLOBALS['monedas'];
+		$conexion = $GLOBALS['conexion'];
+		$html = '';
+		while($row = mysqli_fetch_array($querycontras)){
+			$urlIMAGEN_MONEDAS = '';
+			$urlIMAGEN_MONEDASid = $monedas->listado_fotos_moneda($row["id"]);
+			while($rowfotos = mysqli_fetch_array($urlIMAGEN_MONEDASid)){
+				$urlIMAGEN_MONEDAS .= $conexion->descargararchivo($rowfotos[$imagenCampo]);
+			}
+			$html .= "<tr>";
+			$html .= "<td><input type=\"checkbox\" style=\"width:".$checkboxWidth."\" class=\"form-check-input\" name=\"fotosve[]\" id=\"fotosve\" value=\"".$row["id"]."\"/></td>";
+			$html .= "<td>".$row["MONEDAS"]."</td>";
+			$html .= "<td>".$row["ISO"]."</td>";
+			$html .= "<td>".$row["BANCO_MONEDAS"]."</td>";
+			$html .= "<td>".$row["FECHA_TIPO"]."</td>";
+			$html .= "<td>".$row["HORA_TIPO"]."</td>";
+			$html .= "<td>".$row["TIPO_CAMBIO1"]."</td>";
+			$html .= "<td>".$row["TIPO_CAMBIO2"]."</td>";
+			$html .= "<td>".$row["TIPO_CAMBIO"]."</td>";
+			$html .= "<td>".$urlIMAGEN_MONEDAS."</td>";
+			$html .= "<td>".$row["OBSERVACIONES_MONEDAS"]."</td>";
+			$html .= "<td>".$row["FECHA_MONEDAS"]."</td>";
+			if($conexion->variablespermisos('', $permisoModulo, 'modificar')=='si'){
+				$html .= "<td><input type=\"button\" name=\"view\" value=\"MODIFICAR\" id=\"".$row["id"]."\" class=\"btn btn-info btn-xs ".$viewClass."\" /></td>";
+			}
+			if($conexion->variablespermisos('', $permisoModulo, 'borrar')=='si'){
+				$html .= "<td><input type=\"button\" name=\"view2\" value=\"BORRAR\" id=\"".$row["id"]."\" class=\"btn btn-info btn-xs ".$borrarClass."\" /></td>";
+			}
+			$html .= "</tr>";
+		}
+		return $html;
+	}
+
+	switch($tipo_tabla){
+		case 'DOLAR':
+			echo render_monedas_rows($monedas->Listado_MONEDAS(), 'IMAGENDOLARES', 'AGREGANUEVO_DOLAR', 'view_MONEDAS', 'view_dataMONEDASborrar', '18%');
+			break;
+		case 'EURO':
+			echo render_monedas_rows($monedas->Listado_EURO(), 'IMAGENEUROS', 'AGREGANUEVO_EURO', 'view_MONEDAS2', 'view_dataMONEDASborrar2', '12%');
+			break;
+		case 'TODOS':
+			echo render_monedas_rows($monedas->Listado_MONEDATODOS(), 'IMAGENTODOS', 'AGREGANUEVO_TODOS', 'view_MONEDAS3', 'view_dataMONEDASborrar3', '12%');
+			break;
+		case 'LIBRA':
+			echo render_monedas_rows($monedas->Listado_MONEDA4(), 'IMAGENLIBRA', 'LIBRAE', 'view_MONEDAS4', 'view_dataMONEDASborrar4', '12%');
+			break;
+	}
 	exit;
 }
 
@@ -76,13 +130,7 @@ if($borra_BANCO == 'borra_BANCO'){
 
 
 if($hMONEDAS == 'hMONEDAS' or $enviarMONEDAS=='enviarMONEDAS'){
-/*if( $_FILES["IMAGEN_MONEDAS"] == true){
-$IMAGEN_MONEDAS = $conexion->solocargar("IMAGEN_MONEDAS");
-}if($IMAGEN_MONEDAS=='2' or $IMAGEN_MONEDAS=='' or $IMAGEN_MONEDAS=='1'){
-	$IMAGEN_MONEDAS1="";
-} else{
- $IMAGEN_MONEDAS1 = $IMAGEN_MONEDAS;
-}	*/
+
 					 
    $MONEDAS = isset($_POST["MONEDAS"])?$_POST["MONEDAS"]:"";
    $ISO = isset($_POST["ISO"])?$_POST["ISO"]:"";
@@ -234,13 +282,7 @@ if($hEUROS == 'hEUROS' or $enviarMONEDAS2=='enviarMONEDAS2'){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if($hTODOS == 'hTODOS' or $enviarMONEDAS3=='enviarMONEDAS3'){
-/*if( $_FILES["IMAGEN_MONEDAS"] == true){
-$IMAGEN_MONEDAS = $conexion->solocargar("IMAGEN_MONEDAS");
-}if($IMAGEN_MONEDAS=='2' or $IMAGEN_MONEDAS=='' or $IMAGEN_MONEDAS=='1'){
-	$IMAGEN_MONEDAS1="";
-} else{
- $IMAGEN_MONEDAS1 = $IMAGEN_MONEDAS;
-}	*/
+
 	
 					 
    $MONEDAS = isset($_POST["MONEDAS"])?$_POST["MONEDAS"]:"";
@@ -314,13 +356,7 @@ $IMAGEN_MONEDAS = $conexion->solocargar("IMAGEN_MONEDAS");
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if($hMONEDAS4 == 'hMONEDAS4' or $enviarMONEDAS4=='enviarMONEDAS4'){
-/*if( $_FILES["IMAGEN_MONEDAS"] == true){
-$IMAGEN_MONEDAS = $conexion->solocargar("IMAGEN_MONEDAS");
-}if($IMAGEN_MONEDAS=='2' or $IMAGEN_MONEDAS=='' or $IMAGEN_MONEDAS=='1'){
-	$IMAGEN_MONEDAS1="";
-} else{
- $IMAGEN_MONEDAS1 = $IMAGEN_MONEDAS;
-}	*/
+
 	
 					 
    $MONEDAS = isset($_POST["MONEDAS"])?$_POST["MONEDAS"]:"";
@@ -471,8 +507,6 @@ if($borrasLIBRA =='borrasLIBRA'){
 		echo ' - '. $monedas->borrafotomoneda($borra_id_LIBRA);
 }
 
-/**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//* 
-seccion para actualizar *//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 
 
 

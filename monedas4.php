@@ -290,13 +290,14 @@ while($row = mysqli_fetch_array($querycontras)) {
     <?php } ?>
 </tr>
 <?php } ?>
+ </form>
 </tbody>
 </table>
 </div>
 </div>
 </div>
 </div>
- </form>
+
 
 
 <script>
