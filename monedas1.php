@@ -122,7 +122,7 @@
          <th class="text-start"> <label for="validationCustom03" class="text-start">IMAGEN:</label></th>
          <td>
 		 
-		 <!--<input type="file" class="form-control" id="validationCustom03" required=""     value="<?php echo $IMAGEN_MONEDAS; ?>"  name="IMAGEN_MONEDAS">-->
+	
 		 
 		 
 <div id="drop_file_zone" ondrop="upload_file(event,'IMAGENDOLARES')" ondragover="return false" >
@@ -288,14 +288,17 @@ $urlIMAGEN_MONEDAS ='';
     <?php } ?>
 </tr>
 <?php } ?>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
+
 </form>
+
+</table>
+</tbody>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 <style>
     .table-container {
         max-height: 400px;

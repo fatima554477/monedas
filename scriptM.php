@@ -62,9 +62,15 @@
 
 <script type="text/javascript">
 	var fileobj;
-	function upload_file(e,name) {
+function upload_file(e,name) {
 	    e.preventDefault();
 	    fileobj = e.dataTransfer.files[0];
+	    if (fileobj) {
+	        var targetInput = document.getElementById(name);
+	        if (targetInput) {
+	            targetInput.value = fileobj.name;
+	        }
+	    }
 	    ajax_file_upload1(fileobj,name);
 	}
 	 
@@ -72,6 +78,12 @@
 	    document.getElementsByName(name)[0].click();
 	    document.getElementsByName(name)[0].onchange = function() {
 	        fileobj = document.getElementsByName(name)[0].files[0];
+	        if (fileobj) {
+	            var targetInput = document.getElementById(name);
+	            if (targetInput) {
+	                targetInput.value = fileobj.name;
+	            }
+	        }
 	        ajax_file_upload1(fileobj,name);
 	    };
 	}
@@ -300,9 +312,66 @@ $(document).on('click', '.view_databorraNUEVOborra', function(){
   });
     //AGREGAR	
 	});
-  //AGREGAR	 
- });
+ //AGREGAR	 
+ }); 
 
+
+function obtenerConfigBorradoMonedas(contenedorId, idRegistro) {
+	if (contenedorId === '2IMAGENDOLARES') {
+		return {
+			data: {borra_id_Dolares: idRegistro, borrasDolares: 'borrasDolares'},
+			mensaje: '#mensajeMONEDAS',
+			recarga: '#2IMAGENDOLARES'
+		};
+	}
+	if (contenedorId === '2IMAGENEUROS') {
+		return {
+			data: {borra_id_EUROS: idRegistro, borrasEUROS: 'borrasEUROS'},
+			mensaje: '#mensajeMONEDAS2',
+			recarga: '#2IMAGENEUROS'
+		};
+	}
+	if (contenedorId === '2IMAGENTODOS') {
+		return {
+			data: {borra_id_TODOS: idRegistro, borrasTODOS: 'borrasTODOS'},
+			mensaje: '#mensajeMONEDAS3',
+			recarga: '#2IMAGENTODOS'
+		};
+	}
+	if (contenedorId === '2IMAGENLIBRA') {
+		return {
+			data: {borra_id_LIBRA: idRegistro, borrasLIBRA: 'borrasLIBRA'},
+			mensaje: '#mensajeMONEDAS4',
+			recarga: '#2IMAGENLIBRA'
+		};
+	}
+	return null;
+}
+
+$(document).on('click', '.view_dataAEborrar', function(){
+	var idRegistro = $(this).attr('id');
+	var contenedorId = $(this).closest('div').attr('id');
+	var config = obtenerConfigBorradoMonedas(contenedorId, idRegistro);
+	if (!config) {
+		return;
+	}
+	$('#personal_detalles3').html();
+	$('#dataModal3').modal('show');
+	$('#btnYes').off('click').on('click', function() {
+		$.ajax({
+			url:"MONEDAS/controladorM.php",
+			method:'POST',
+			data: config.data,
+			beforeSend:function(){
+				$(config.mensaje).html('cargando');
+			},
+			success:function(){
+				$('#dataModal3').modal('hide');
+				$(config.recarga).load(location.href + " " + config.recarga);
+			}
+		});
+	});
+});
 
 
 
