@@ -49,7 +49,6 @@ PROGRAMER: SANDOR ACTUALIZACION: 1 MAY 2023
 	public function cargarMONEDA($archivo,$IDENTIFICADOR,$campo,$nombretabla,$idrelacionsesion,$idpost,$BANDERA)
 	{
 		$nombre_carpeta=__ROOT3__.'/includes/archivos';
-		$filehandle = opendir($nombre_carpeta);
 		$nombretemp = $_FILES[$archivo]["tmp_name"];
 		$nombrearchivo = $_FILES[$archivo]["name"];
 		$tamanyoarchivo = $_FILES[$archivo]["size"];
@@ -75,12 +74,8 @@ PROGRAMER: SANDOR ACTUALIZACION: 1 MAY 2023
 		strtolower($extension[$cuenta]) == 'xls'  		
 		){ //gif o jpg
 		/*if ($tamanyoarchivo <= $tamanyomax) { //archivo demasioado grande*/
-		if(move_uploaded_file($nombretemp, $nombre_carpeta.'/'. $nuevonombre)){
+	if(move_uploaded_file($nombretemp, $nombre_carpeta.'/'. $nuevonombre)){
 		chmod ($nombre_carpeta.'/' . $nuevonombre, 0755);
-		$tamanyo =fileSize($nombre_carpeta.'/'. $nuevonombre);
-		$fp = fopen($nombre_carpeta.'/'.$nuevonombre, "rb"); 
-		$contenido = fread($fp, $tamanyo);
-		$contenido = addslashes($contenido);
 		if($IDENTIFICADOR=='MONEDA'){
 			//$archivo,$nuevonombre,$campo,$nombretabla,$idrelacionsesion,$BANDERA
 		$this->sologuardarMONEDA($archivo,$nuevonombre,$campo,$nombretabla,$idrelacionsesion,$idpost,$BANDERA);
