@@ -66,7 +66,7 @@ if($listar_tabla === 'listar_tabla'){
 
 	switch($tipo_tabla){
 		case 'DOLAR':
-			echo render_monedas_rows($monedas->Listado_MONEDAS(), 'IMAGENDOLARES', 'AGREGANUEVO_DOLAR', 'view_MONEDAS', 'view_dataMONEDASborrar', '18%');
+			echo render_monedas_rows($monedas->Listado_MONEDAS(), 'IMAGENDOLARES', 'AGREGANUEVO_DOLAR', 'view_MONEDAS', 'view_dataMONEDASborrar', '12%');
 			break;
 		case 'EURO':
 			echo render_monedas_rows($monedas->Listado_EURO(), 'IMAGENEUROS', 'AGREGANUEVO_EURO', 'view_MONEDAS2', 'view_dataMONEDASborrar2', '12%');
