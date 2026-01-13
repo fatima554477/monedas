@@ -11,9 +11,26 @@ include_once (__ROOT1__."/MONEDAS/class.epcinnM.php");
 $monedas = NEW accesoclase();
 $conexion = NEW colaboradores();
 
+$listar_temporal = isset($_POST["listar_temporal"])?$_POST["listar_temporal"]:"";
+$campo_temporal = isset($_POST["campo"])?$_POST["campo"]:"";
+$campos_temporales_permitidos = array('IMAGENDOLARES', 'IMAGENEUROS', 'IMAGENTODOS', 'IMAGENLIBRA');
+if($listar_temporal == 'listar_temporal' && in_array($campo_temporal, $campos_temporales_permitidos, true)){
+	$sessionidem = isset($_SESSION['idem'])?$_SESSION['idem']:'';
+	$fecha = date('Y-m-d');
+	$querycontras_temporal = $monedas->Listado_fotosgUARDARMONEDAtemporal($campo_temporal, $fecha, $sessionidem);
+	while($row_temporal = mysqli_fetch_array($querycontras_temporal)){
+		if($row_temporal[$campo_temporal] != ""){
+			$fecha_registro = isset($row_temporal['fecha']) ? $row_temporal['fecha'] : '';
+			echo "<a target='_blank' href='includes/archivos/".$row_temporal[$campo_temporal]."' id='A".$row_temporal['id']."' >Visualizar!</a> "." <span id='".$row_temporal['id']."' class='view_dataAEborrar' style='cursor:pointer;color:blue;'>Borrar!</span><span > ".$fecha_registro."</span>".'<br/>';
+		}
+	}
+	exit;
+}
+
 $hMONEDAS = isset($_POST["hMONEDAS"])?$_POST["hMONEDAS"]:"";
 $enviarMONEDAS = isset($_POST["enviarMONEDAS"])?$_POST["enviarMONEDAS"]:"";
 $IpMONEDAS = isset($_POST["IpMONEDAS"])?$_POST["IpMONEDAS"]:"";
+
 $borra_MONEDAS = isset($_POST["borra_MONEDAS"])?$_POST["borra_MONEDAS"]:"";
 $EMAIL_MONEDAS = isset($_POST["EMAIL_MONEDAS"])?$_POST["EMAIL_MONEDAS"]:"";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

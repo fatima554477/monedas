@@ -16,8 +16,7 @@ PROGRAMER: SANDOR ACTUALIZACION: 1 MAY 2023
 
 	public function Listado_fotosgUARDARMONEDAtemporal($CAMPO,$fecha,$idrelacionsesion){
 		$conn = $this->db();
-
-		$variablequery = "select id, ".$CAMPO." from 13MONEDAfotos where 
+        $variablequery = "select id, ".$CAMPO.", fecha from 13MONEDAfotos where 
 		(".$CAMPO." is not null or ".$CAMPO." <> '') and BANDERA = 'si'
 		and idrelacionsesion = '".$idrelacionsesion."'
 		order by id desc ";

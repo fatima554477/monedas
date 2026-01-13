@@ -88,7 +88,7 @@ function upload_file(e,name) {
 	    };
 	}
 
-	function ajax_file_upload1(file_obj,nombre) {
+function ajax_file_upload1(file_obj,nombre) {
 	    if(file_obj != undefined) {
 	        var form_data = new FormData();                  
 	        form_data.append(nombre, file_obj);
@@ -101,18 +101,29 @@ function upload_file(e,name) {
  beforeSend: function() {
 $('#1'+nombre).html('<p style="color:green;">CARGANDO archivo!</p>');
     },				
-	            success:function(response) {
+            success:function(response) {
 					
 	if($.trim(response) == 2 ){
 		$('#1'+nombre).html('<p style="color:red;">Error, archivo diferente a PDF, JPG o GIF.</p>');
 	}else{
 		$('#1'+nombre).html('');
-		$("#2"+nombre).load(location.href + " #2"+nombre);	
+		actualizar_listado_temporal(nombre);
 	}
 
 	            }
 	        });
 	    }
+	}
+
+	function actualizar_listado_temporal(nombre) {
+		$.ajax({
+			type: 'POST',
+			url: "MONEDAS/controladorM.php",
+			data: { listar_temporal: 'listar_temporal', campo: nombre },
+			success: function(response) {
+				$("#2" + nombre).html(response);
+			}
+		});
 	}
 
 
