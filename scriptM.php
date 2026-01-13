@@ -171,6 +171,7 @@ const numberWithCommas = (x) => {
 
 
 
+
  
 
 
@@ -196,10 +197,18 @@ $.ajax({
     $('#mensajeMONEDAS').html('cargando'); 
     },    
   success:function(data){
-	  
 		actualizar_listado_temporal('IMAGENDOLARES');
 		limpiar_nombre_imagen('IMAGENDOLARES');
+			actualizar_listado_temporal('TIPO_CAMBIO');
+		limpiar_nombre_imagen('TIPO_CAMBIO');
+			actualizar_listado_temporal('TIPO_CAMBIO2');
+		limpiar_nombre_imagen('TIPO_CAMBIO2');
+			actualizar_listado_temporal('TIPO_CAMBIO1');
+		limpiar_nombre_imagen('TIPO_CAMBIO1');
+					actualizar_listado_temporal('OBSERVACIONES_MONEDAS');
+		limpiar_nombre_imagen('OBSERVACIONES_MONEDAS');
 		refrescar_tabla_monedas('DOLAR', '#reset_MONEDAS tbody');
+
 		$("#mensajeMONEDAS").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 
 
    }
@@ -528,6 +537,7 @@ $.ajax({
    success:function(data){
 		actualizar_listado_temporal('IMAGENEUROS');
 		limpiar_nombre_imagen('IMAGENEUROS');
+
 		refrescar_tabla_monedas('EURO', '#reset_MONEDAS2 tbody');	
 			$("#mensajeMONEDAS2").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 
 
