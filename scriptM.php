@@ -123,7 +123,18 @@ function actualizar_listado_temporal(nombre) {
 			success: function(response) {
 				$("#2" + nombre).html(response);
 			}
-		});
+	});
+	}
+
+	function limpiar_nombre_imagen(nombre) {
+		var inputNombre = document.getElementById(nombre);
+		if (inputNombre) {
+			inputNombre.value = '';
+		}
+		var fileInputs = document.getElementsByName(nombre);
+		if (fileInputs && fileInputs.length > 0) {
+			fileInputs[0].value = '';
+		}
 	}
 
 	function refrescar_tabla_monedas(tipo, selector) {
@@ -185,7 +196,9 @@ $.ajax({
     $('#mensajeMONEDAS').html('cargando'); 
     },    
   success:function(data){
+	  
 		actualizar_listado_temporal('IMAGENDOLARES');
+		limpiar_nombre_imagen('IMAGENDOLARES');
 		refrescar_tabla_monedas('DOLAR', '#reset_MONEDAS tbody');
 		$("#mensajeMONEDAS").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 
 
@@ -514,6 +527,7 @@ $.ajax({
     },    
    success:function(data){
 		actualizar_listado_temporal('IMAGENEUROS');
+		limpiar_nombre_imagen('IMAGENEUROS');
 		refrescar_tabla_monedas('EURO', '#reset_MONEDAS2 tbody');	
 			$("#mensajeMONEDAS2").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 
 
@@ -632,6 +646,7 @@ $.ajax({
     },    
  success:function(data){
 	actualizar_listado_temporal('IMAGENTODOS');
+	limpiar_nombre_imagen('IMAGENTODOS');
 	refrescar_tabla_monedas('TODOS', '#reset_MONEDAS3 tbody');	
 	$("#mensajeMONEDAS3").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 
 
@@ -746,8 +761,9 @@ $.ajax({
 	 beforeSend:function(){  
     $('#mensajeMONEDAS4').html('cargando'); 
     },    
-  success:function(data){
+ success:function(data){
 		actualizar_listado_temporal('IMAGENLIBRA');	
+		limpiar_nombre_imagen('IMAGENLIBRA');
 		refrescar_tabla_monedas('LIBRA', '#reset_MONEDAS4 tbody');		
 			$("#mensajeMONEDAS4").html("<span id='ACTUALIZADO' >"+data+"</span>").fadeIn().delay(3000).fadeOut(); 
 
